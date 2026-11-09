@@ -30,13 +30,20 @@
 
   /* top bar */
   .bar { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
-  .bar-inner { max-width: 52rem; margin: 0 auto; padding: 0.7rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; font-family: var(--sans); }
+  .bar-inner { max-width: 52rem; margin: 0 auto; padding: 0.7rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-family: var(--sans); }
   .brand { font-weight: 600; color: var(--ink); text-decoration: none; white-space: nowrap; }
-  .tabs { display: flex; gap: 0.25rem; overflow-x: auto; scrollbar-width: none; }
+  .tabs { display: flex; gap: 0.15rem; overflow-x: auto; scrollbar-width: none; min-width: 0; }
   .tabs::-webkit-scrollbar { display: none; }
-  .tabs a { color: var(--muted); text-decoration: none; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.95rem; white-space: nowrap; }
+  .tabs a { color: var(--muted); text-decoration: none; padding: 0.3rem 0.6rem; border-radius: 999px; font-size: 0.95rem; white-space: nowrap; }
   .tabs a:hover { color: var(--ink); }
   .tabs a[aria-current="page"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+  .lang { display: flex; flex: 0 0 auto; gap: 0.1rem; padding: 0.15rem; border: 1px solid var(--rule); border-radius: 999px; }
+  .lang button { font: inherit; font-size: 0.85rem; line-height: 1.2; padding: 0.2rem 0.6rem; border: 0; border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer; }
+  .lang button:hover { color: var(--ink); }
+  .lang button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+  html[lang="vi"] .native { display: none; }
 
   main { max-width: 52rem; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
   h1, h2, h3 { margin: 0; letter-spacing: -0.01em; }
@@ -100,7 +107,10 @@
   .logo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 0.25rem; background: #fff; }
 
   @media (max-width: 36rem) {
-    .bar-inner { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    .bar-inner { flex-wrap: wrap; align-items: center; gap: 0.4rem 1rem; }
+    .brand { order: 1; }
+    .lang { order: 2; margin-left: auto; }
+    .tabs { order: 3; width: 100%; }
     .hero { grid-template-columns: 1fr; text-align: left; }
     .portrait { width: 7rem; height: 7rem; font-size: 2rem; }
     .row { grid-template-columns: 1fr; }
@@ -112,15 +122,19 @@
 
 <header class="bar">
   <div class="bar-inner">
-    <a class="brand" href="#about">Duc Van Khanh Tran</a>
+    <a class="brand" data-i18n="brand" href="#about">Duc Van Khanh Tran</a>
     <nav class="tabs" aria-label="Sections">
-      <a href="#about">About</a>
-      <a href="#publications">Publications</a>
-      <a href="#teaching">Teaching</a>
-      <a href="#working">Working</a>
-      <a href="#talks">Talks</a>
-      <a href="#misc">Miscellaneous</a>
+      <a data-i18n="nav_about" href="#about">About</a>
+      <a data-i18n="nav_pubs" href="#publications">Publications</a>
+      <a data-i18n="nav_teaching" href="#teaching">Teaching</a>
+      <a data-i18n="nav_working" href="#working">Working</a>
+      <a data-i18n="nav_talks" href="#talks">Talks</a>
+      <a data-i18n="nav_misc" href="#misc">Miscellaneous</a>
     </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" lang="en" title="English" aria-pressed="true">EN</button>
+      <button type="button" data-lang="vi" lang="vi" title="Tiếng Việt" aria-pressed="false">VI</button>
+    </div>
   </div>
 </header>
 
@@ -135,9 +149,9 @@
       <img src="assets/portrait.jpg" alt="Portrait of Duc Van Khanh Tran" onerror="this.remove()">
     </div>
     <div>
-      <h1>Duc Van Khanh Tran</h1>
+      <h1 data-i18n="h1_name">Duc Van Khanh Tran</h1>
       <p class="native" lang="vi">Trần Văn Khánh Đức <span lang="zh-Hant">陳文慶德</span></p>
-      <p class="role">Ph.D. Student, <strong>Computer Science</strong><br>National University of Singapore</p>
+      <p data-i18n="role" class="role">Ph.D. Student, <strong>Computer Science</strong><br>National University of Singapore</p>
       <p class="contact"><a href="mailto:duc.tranvk@u.nus.edu" id="email">duc.tranvk@u.nus.edu</a>
         <button type="button" class="copy" id="copy-email" aria-label="Copy email address" title="Copy email address">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
@@ -146,17 +160,17 @@
     </div>
   </div>
 
-  <h2>About</h2>
-  <p>I am a PhD student in Computer Science at <a href="https://www.comp.nus.edu.sg/">National University of Singapore</a>, working in the <a href="https://research.nus.edu.sg/ubicomplab/">NUS Ubicomp Lab</a> under the supervision of Assoc. Prof. Brian Y. Lim. Before this, I studied Mathematics and Linguistics at <a href="https://www.utexas.edu/">the University of Texas at Austin</a>. My current research areas include explainable AI (XAI) and human-computer interaction (HCI), with main focus on AI-assisted decision support tools.</p>
+  <h2 data-i18n="h_about">About</h2>
+  <p data-i18n="about_p">I am a PhD student in Computer Science at <a href="https://www.comp.nus.edu.sg/">National University of Singapore</a>, working in the <a href="https://research.nus.edu.sg/ubicomplab/">NUS Ubicomp Lab</a> under the supervision of Assoc. Prof. Brian Y. Lim. Before this, I studied Mathematics and Linguistics at <a href="https://www.utexas.edu/">the University of Texas at Austin</a>. My current research areas include explainable AI (XAI) and human-computer interaction (HCI), with main focus on AI-assisted decision support tools.</p>
 
-  <h3>Education</h3>
+  <h3 data-i18n="h_edu">Education</h3>
   <div class="row">
-    <div class="when">2025 — Present</div>
+    <div data-i18n="w_2025_now" class="when">2025 — Present</div>
     <div class="what edu">
       <span class="logo" aria-hidden="true">NUS<img src="assets/nus.svg" alt="" onerror="this.remove()"></span>
       <div>
-        <p class="title">Ph.D. in Computer Science</p>
-        <p class="sub">National University of Singapore</p>
+        <p data-i18n="edu_phd" class="title">Ph.D. in Computer Science</p>
+        <p data-i18n="edu_nus" class="sub">National University of Singapore</p>
       </div>
     </div>
   </div>
@@ -165,9 +179,9 @@
     <div class="what edu">
       <span class="logo" aria-hidden="true">UT<img src="assets/utaustin.svg" alt="" onerror="this.remove()"></span>
       <div>
-        <p class="title">B.S. in Mathematics</p>
-        <p class="title" style="margin-top:.35rem">B.A. in Linguistics</p>
-        <p class="sub">The University of Texas at Austin</p>
+        <p data-i18n="edu_bs" class="title">B.S. in Mathematics</p>
+        <p data-i18n="edu_ba" class="title" style="margin-top:.35rem">B.A. in Linguistics</p>
+        <p data-i18n="edu_ut" class="sub">The University of Texas at Austin</p>
       </div>
     </div>
   </div>
@@ -175,9 +189,9 @@
 
 <!-- PUBLICATIONS -->
 <section id="publications">
-  <h2>Publications</h2>
+  <h2 data-i18n="h_pubs">Publications</h2>
 
-  <h3>Papers and preprints</h3>
+  <h3 data-i18n="h_papers">Papers and preprints</h3>
   <div class="row">
     <div class="when">2026</div>
     <div class="what">
@@ -224,7 +238,7 @@
     </div>
   </div>
 
-  <h3>Books</h3>
+  <h3 data-i18n="h_books">Books</h3>
   <div class="row">
     <div class="when">2023</div>
     <div class="what">
@@ -260,36 +274,36 @@
 
 <!-- TEACHING -->
 <section id="teaching">
-  <h2>Teaching</h2>
+  <h2 data-i18n="h_teaching">Teaching</h2>
 
-  <h3>National University of Singapore</h3>
+  <h3 data-i18n="h_nus">National University of Singapore</h3>
   <div class="row">
-    <div class="when">Sep 2026 — Present</div>
+    <div data-i18n="w_sep26" class="when">Sep 2026 — Present</div>
     <div class="what">
-      <p class="title">Teaching Assistant</p>
-      <p class="sub">Department of Computer Science</p>
-      <ul><li>CS 3244 Machine Learning (Fall 2026)</li></ul>
+      <p data-i18n="ta" class="title">Teaching Assistant</p>
+      <p data-i18n="dept_cs" class="sub">Department of Computer Science</p>
+      <ul><li data-i18n="c_cs3244">CS 3244 Machine Learning (Fall 2026)</li></ul>
     </div>
   </div>
 
-  <h3>University of Texas at Austin</h3>
+  <h3 data-i18n="h_ut">University of Texas at Austin</h3>
   <div class="row">
-    <div class="when">Sep — Dec 2024</div>
+    <div data-i18n="w_sepdec24" class="when">Sep — Dec 2024</div>
     <div class="what">
-      <p class="title">Teaching Assistant</p>
-      <p class="sub">Department of Linguistics</p>
-      <ul><li>LIN 372J Meaning and Message (Fall 2024)</li></ul>
+      <p data-i18n="ta" class="title">Teaching Assistant</p>
+      <p data-i18n="dept_ling" class="sub">Department of Linguistics</p>
+      <ul><li data-i18n="c_lin372">LIN 372J Meaning and Message (Fall 2024)</li></ul>
     </div>
   </div>
   <div class="row">
-    <div class="when">Jan 2024 — May 2025</div>
+    <div data-i18n="w_jan24" class="when">Jan 2024 — May 2025</div>
     <div class="what">
-      <p class="title">Mathematics Grader</p>
-      <p class="sub">Department of Mathematics</p>
+      <p data-i18n="grader" class="title">Mathematics Grader</p>
+      <p data-i18n="dept_math" class="sub">Department of Mathematics</p>
       <ul>
-        <li>M 361K Introduction to Real Analysis (Spring 2025)</li>
-        <li>M 328K Introduction to Number Theory (Fall 2024)</li>
-        <li>M 375T Complex Analysis and Application (Spring 2024)</li>
+        <li data-i18n="c_m361">M 361K Introduction to Real Analysis (Spring 2025)</li>
+        <li data-i18n="c_m328">M 328K Introduction to Number Theory (Fall 2024)</li>
+        <li data-i18n="c_m375">M 375T Complex Analysis and Application (Spring 2024)</li>
       </ul>
     </div>
   </div>
@@ -297,36 +311,36 @@
 
 <!-- WORKING -->
 <section id="working">
-  <h2>Working</h2>
+  <h2 data-i18n="h_working">Working</h2>
   <div class="row">
-    <div class="when">May — Aug 2024</div>
+    <div data-i18n="w_may24" class="when">May — Aug 2024</div>
     <div class="what">
-      <p class="title">AI Intern, SmartOSC</p>
-      <p class="sub">Hanoi, Vietnam</p>
+      <p data-i18n="ai_intern" class="title">AI Intern, SmartOSC</p>
+      <p data-i18n="hanoi" class="sub">Hanoi, Vietnam</p>
       <ul>
-        <li>Built proof of concept for LLM-powered product search with LangChain and Hugging Face.</li>
+        <li data-i18n="smartosc_li">Built proof of concept for LLM-powered product search with LangChain and Hugging Face.</li>
       </ul>
     </div>
   </div>
   <div class="row">
-    <div class="when">Jun — Aug 2023</div>
+    <div data-i18n="w_jun23" class="when">Jun — Aug 2023</div>
     <div class="what">
-      <p class="title">Algebra Research Assistant</p>
-      <p class="sub">REU, Department of Mathematics, Texas State University</p>
+      <p data-i18n="alg_ra" class="title">Algebra Research Assistant</p>
+      <p data-i18n="reu" class="sub">REU, Department of Mathematics, Texas State University</p>
       <ul>
-        <li>Researched finite group theory under Dr. Yong Yang.</li>
-        <li>Wrote a paper classifying primitive solvable groups of rank 5 and 6, published in the <em>Journal of Group Theory</em>.</li>
+        <li data-i18n="alg_li1">Researched finite group theory under Prof. Yong Yang.</li>
+        <li data-i18n="alg_li2">Wrote a paper classifying primitive solvable groups of rank 5 and 6, published in the <em>Journal of Group Theory</em>.</li>
       </ul>
     </div>
   </div>
   <div class="row">
-    <div class="when">Feb 2023 — May 2024</div>
+    <div data-i18n="w_feb23" class="when">Feb 2023 — May 2024</div>
     <div class="what">
-      <p class="title">Linguistics Research Assistant</p>
-      <p class="sub">Department of Linguistics, University of Texas at Austin</p>
+      <p data-i18n="ling_ra" class="title">Linguistics Research Assistant</p>
+      <p data-i18n="ling_dept_ut" class="sub">Department of Linguistics, University of Texas at Austin</p>
       <ul>
-        <li>Analyzed the phonology of Cacaopera, an extinct language of El Salvador, to build a consistent phonological system in the International Phonetic Alphabet (IPA).</li>
-        <li>Reviewed five previous documentations of Cacaopera.</li>
+        <li data-i18n="ling_li1">Analyzed the phonology of Cacaopera, an extinct language of El Salvador, to build a consistent phonological system in the International Phonetic Alphabet (IPA).</li>
+        <li data-i18n="ling_li2">Reviewed five previous documentations of Cacaopera.</li>
       </ul>
     </div>
   </div>
@@ -334,78 +348,78 @@
 
 <!-- TALKS -->
 <section id="talks">
-  <h2>Talks</h2>
+  <h2 data-i18n="h_talks">Talks</h2>
 
-  <h3>Invited talks</h3>
+  <h3 data-i18n="h_invited">Invited talks</h3>
   <div class="row">
-    <div class="when">Dec 2, 2024</div>
-    <div class="what"><p><span class="title">On Sums of Practical Numbers and Polygonal Numbers</span><br>Stony Brook University Math Club (remote)</p></div>
+    <div data-i18n="d1" class="when">Dec 2, 2024</div>
+    <div class="what"><p><span class="title">On Sums of Practical Numbers and Polygonal Numbers</span><br><span data-i18n="v1">Stony Brook University Math Club (online)</span></p></div>
   </div>
   <div class="row">
-    <div class="when">Sep 20, 2023</div>
-    <div class="what"><p><span class="title">Classifying Primitive Solvable Permutation Groups of Rank 5 and 6</span><br>with A. Dey. China Three Gorges University Algebra and Combinatorics Seminar (remote)</p></div>
+    <div data-i18n="d2" class="when">Sep 20, 2023</div>
+    <div class="what"><p><span class="title">Classifying Primitive Solvable Permutation Groups of Rank 5 and 6</span><br><span data-i18n="v2">with A. Dey. China Three Gorges University Algebra and Combinatorics Seminar (online)</span></p></div>
   </div>
   <div class="row">
-    <div class="when">Jun 17, 2021</div>
-    <div class="what"><p><span class="title">The Efficacy of Mathematics in Physics and Mathematical Platonism</span><br>2021 APS-Ghana Webinar, American Physical Society (remote)</p></div>
-  </div>
-
-  <h3>Contributed talks</h3>
-  <div class="row">
-    <div class="when">Nov 9, 2024</div>
-    <div class="what"><p><span class="title">On Sums of Practical Numbers and Polygonal Numbers</span><br>Texas Undergraduate Mathematics Conference, University of Texas at Tyler</p></div>
-  </div>
-  <div class="row">
-    <div class="when">Oct 28, 2023</div>
-    <div class="what"><p><span class="title">Some Results on Zumkeller Numbers</span><br>Texas Undergraduate Mathematics Conference, Stephen F. Austin State University</p></div>
+    <div data-i18n="d3" class="when">Jun 17, 2021</div>
+    <div class="what"><p><span class="title">The Efficacy of Mathematics in Physics and Mathematical Platonism</span><br><span data-i18n="v3">2021 APS-Ghana Webinar, American Physical Society (online)</span></p></div>
   </div>
 
-  <h3>Posters</h3>
+  <h3 data-i18n="h_contrib">Contributed talks</h3>
   <div class="row">
-    <div class="when">Nov 13–14, 2023</div>
-    <div class="what"><p><span class="title">Some Results on Zumkeller Numbers</span><br>Gateway to Graduate Studies in Science Symposium, University of Texas at Austin</p></div>
+    <div data-i18n="d4" class="when">Nov 9, 2024</div>
+    <div class="what"><p><span class="title">On Sums of Practical Numbers and Polygonal Numbers</span><br><span data-i18n="v4">Texas Undergraduate Mathematics Conference, University of Texas at Tyler</span></p></div>
   </div>
   <div class="row">
-    <div class="when">Oct 20, 2023</div>
-    <div class="what"><p><span class="title">Classifying Primitive Solvable Permutation Groups of Rank 5</span><br>Math Graduate Programs Expo, Texas State University</p></div>
+    <div data-i18n="d5" class="when">Oct 28, 2023</div>
+    <div class="what"><p><span class="title">Some Results on Zumkeller Numbers</span><br><span data-i18n="v5">Texas Undergraduate Mathematics Conference, Stephen F. Austin State University</span></p></div>
+  </div>
+
+  <h3 data-i18n="h_posters">Posters</h3>
+  <div class="row">
+    <div data-i18n="d6" class="when">Nov 13–14, 2023</div>
+    <div class="what"><p><span class="title">Some Results on Zumkeller Numbers</span><br><span data-i18n="v6">Gateway to Graduate Studies in Science Symposium, University of Texas at Austin</span></p></div>
   </div>
   <div class="row">
-    <div class="when">Aug 2, 2023</div>
-    <div class="what"><p><span class="title">Classifying Primitive Solvable Permutation Groups of Rank 5</span><br>with A. Dey, K. O’Neal, C. Upshur. Research Inquiry and Creative Expression Showcase, Texas State University</p></div>
+    <div data-i18n="d7" class="when">Oct 20, 2023</div>
+    <div class="what"><p><span class="title">Classifying Primitive Solvable Permutation Groups of Rank 5</span><br><span data-i18n="v7">Math Graduate Programs Expo, Texas State University</span></p></div>
+  </div>
+  <div class="row">
+    <div data-i18n="d8" class="when">Aug 2, 2023</div>
+    <div class="what"><p><span class="title">Classifying Primitive Solvable Permutation Groups of Rank 5</span><br><span data-i18n="v8">with A. Dey, K. O’Neal, C. Upshur. Research Inquiry and Creative Expression Showcase, Texas State University</span></p></div>
   </div>
 </section>
 
 <!-- MISCELLANEOUS -->
 <section id="misc">
-  <h2>Miscellaneous</h2>
+  <h2 data-i18n="h_misc">Miscellaneous</h2>
 
-  <h3 class="misc-title">Erdős number <span class="erdos-val">4</span> <span class="erdos-expl">(collaborative distance from Paul Erdős)</span></h3>
+  <h3 class="misc-title"><span data-i18n="erdos">Erdős number</span> <span class="erdos-val">4</span> <span class="erdos-expl" data-i18n="erdos_expl">(collaborative distance from Paul Erdős)</span></h3>
   <ol class="chain" aria-label="Collaboration chain from Duc Van Khanh Tran to Paul Erdős">
-    <li><span class="name">Duc Van Khanh Tran</span></li>
+    <li><span data-i18n="chain_me" class="name">Duc Van Khanh Tran</span></li>
     <li><span class="name">Sai Teja Somu</span></li>
     <li><span class="name">Georges Grekos</span></li>
     <li><span class="name">Jean-Marc Deshouillers</span></li>
     <li><span class="name">Paul Erdős</span></li>
   </ol>
 
-  <h3 class="misc-title">Languages I speak</h3>
+  <h3 data-i18n="h_langs" class="misc-title">Languages I speak</h3>
   <ul class="chips" style="margin-top:0.5rem" aria-label="Languages">
-    <li class="chip">Vietnamese</li>
-    <li class="chip">Japanese</li>
-    <li class="chip">English</li>
-    <li class="chip">Mandarin Chinese</li>
+    <li data-i18n="l_vi" class="chip">Vietnamese</li>
+    <li data-i18n="l_ja" class="chip">Japanese</li>
+    <li data-i18n="l_en" class="chip">English</li>
+    <li data-i18n="l_zh" class="chip">Mandarin Chinese</li>
   </ul>
 
-  <h3 class="misc-title">Places I’ve been</h3>
+  <h3 data-i18n="h_places" class="misc-title">Places I’ve been</h3>
   <div id="map" role="region" aria-label="Map of places I have been"></div>
   <noscript><p class="sub">The map needs JavaScript to display.</p></noscript>
 
   <div class="place-group">
-    <h3 style="margin-top:0">Asia</h3>
+    <h3 data-i18n="r_asia" style="margin-top:0">Asia</h3>
     <div class="chips" data-region="Asia"></div>
   </div>
   <div class="place-group">
-    <h3 style="margin-top:0">America</h3>
+    <h3 data-i18n="r_america" style="margin-top:0">America</h3>
     <div class="chips" data-region="America"></div>
   </div>
 </section>
@@ -461,34 +475,34 @@
   copyBtn.addEventListener("click", function () {
     var text = document.getElementById("email").textContent.trim();
     if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(function () { flash("Copied"); },
-        function () { flash(fallbackCopy(text) ? "Copied" : "Copy failed"); });
+      navigator.clipboard.writeText(text).then(function () { flash(t("copied")); },
+        function () { flash(fallbackCopy(text) ? t("copied") : t("failed")); });
     } else {
-      flash(fallbackCopy(text) ? "Copied" : "Copy failed");
+      flash(fallbackCopy(text) ? t("copied") : t("failed"));
     }
   });
 
   // Places map
   var places = [
-    { name: "Japan", region: "Asia", lat: 35.68, lng: 139.69 },
-    { name: "Vietnam", region: "Asia", lat: 16.05, lng: 108.2 },
-    { name: "Cambodia", region: "Asia", lat: 11.56, lng: 104.92 },
-    { name: "Singapore", region: "Asia", lat: 1.35, lng: 103.82 },
-    { name: "Taiwan (ROC)", region: "Asia", lat: 23.8, lng: 120.95 },
-    { name: "Pennsylvania, USA", region: "America", lat: 39.95, lng: -75.17 },
-    { name: "Texas, USA", region: "America", lat: 30.27, lng: -97.74 },
-    { name: "Colorado, USA", region: "America", lat: 39.74, lng: -104.99 },
-    { name: "New York, USA", region: "America", lat: 40.71, lng: -74.01 },
-    { name: "Washington, USA", region: "America", lat: 47.61, lng: -122.33 },
-    { name: "Washington D.C., USA", region: "America", lat: 38.9, lng: -77.04 },
-    { name: "Maryland, USA", region: "America", lat: 39.05, lng: -76.8 },
-    { name: "Massachusetts, USA", region: "America", lat: 42.36, lng: -71.06 },
-    { name: "Rhode Island, USA", region: "America", lat: 41.82, lng: -71.41 }
+    { name: "Japan", vi: "Nhật Bản", region: "Asia", lat: 35.68, lng: 139.69 },
+    { name: "Vietnam", vi: "Việt Nam", region: "Asia", lat: 16.05, lng: 108.2 },
+    { name: "Cambodia", vi: "Campuchia", region: "Asia", lat: 11.56, lng: 104.92 },
+    { name: "Singapore", vi: "Singapore", region: "Asia", lat: 1.35, lng: 103.82 },
+    { name: "Taiwan", vi: "Đài Loan", region: "Asia", lat: 23.8, lng: 120.95 },
+    { name: "Pennsylvania, USA", vi: "Pennsylvania, Hoa Kỳ", region: "America", lat: 39.95, lng: -75.17 },
+    { name: "Texas, USA", vi: "Texas, Hoa Kỳ", region: "America", lat: 30.27, lng: -97.74 },
+    { name: "Oklahoma, USA", vi: "Oklahoma, Hoa Kỳ", region: "America", lat: 35.47, lng: -97.52 },
+    { name: "New York, USA", vi: "New York, Hoa Kỳ", region: "America", lat: 40.71, lng: -74.01 },
+    { name: "Washington, USA", vi: "Washington, Hoa Kỳ", region: "America", lat: 47.61, lng: -122.33 },
+    { name: "Washington D.C., USA", vi: "Washington D.C., Hoa Kỳ", region: "America", lat: 38.9, lng: -77.04 },
+    { name: "Maryland, USA", vi: "Maryland, Hoa Kỳ", region: "America", lat: 39.05, lng: -76.8 },
+    { name: "Massachusetts, USA", vi: "Massachusetts, Hoa Kỳ", region: "America", lat: 42.36, lng: -71.06 },
+    { name: "Rhode Island, USA", vi: "Rhode Island, Hoa Kỳ", region: "America", lat: 41.82, lng: -71.41 }
   ];
   var map, markers = {};
   var LAND_BORDER = "#cdd5e0", VISITED_FILL = "#f8d7e0", PIN_RING = "#6b7280";
   var visitedCountries = ["Japan", "Vietnam", "Cambodia", "Singapore", "Taiwan"];
-  var visitedStates = ["Pennsylvania", "Texas", "Colorado", "New York", "Washington", "District of Columbia", "Maryland", "Massachusetts", "Rhode Island"];
+  var visitedStates = ["Pennsylvania", "Texas", "Oklahoma", "New York", "Washington", "District of Columbia", "Maryland", "Massachusetts", "Rhode Island"];
 
   // Natural Earth shapes (Russia, Fiji) cross the 180° meridian, which draws streaks and
   // flips fills on a flat map. Unwrap those rings and add a shifted copy on the other side.
@@ -537,7 +551,7 @@
       markers[p.name] = L.circleMarker([p.lat, p.lng], {
         pane: "pins", renderer: pinRenderer, radius: 5,
         color: PIN_RING, weight: 3, fillColor: "#ffffff", fillOpacity: 1
-      }).addTo(map).bindTooltip(p.name, { direction: "top", offset: [0, -6] });
+      }).addTo(map).bindTooltip(placeName(p), { direction: "top", offset: [0, -6] });
     });
     map.fitBounds(places.map(function (p) { return [p.lat, p.lng]; }), { padding: [30, 30] });
 
@@ -562,24 +576,183 @@
     }).catch(function (e) { console.warn("Map data failed to load", e); });
   }
 
-  function sortKey(p) { return p.name.replace(/, USA$/, ""); }
-  places.slice().sort(function (a, b) { return sortKey(a).localeCompare(sortKey(b)); }).forEach(function (p) {
-    var holder = document.querySelector('[data-region="' + p.region + '"]');
-    if (!holder) return;
-    var b = document.createElement("button");
-    b.type = "button";
-    b.className = "chip";
-    b.textContent = p.name;
-    b.addEventListener("click", function () {
-      initMap();
-      if (!map) return;
-      map.invalidateSize();
-      map.flyTo([p.lat, p.lng], 5, { duration: 0.8 });
-      markers[p.name].openTooltip();
-      document.getElementById("map").scrollIntoView({ behavior: "smooth", block: "nearest" });
-    });
-    holder.appendChild(b);
+  // ---------- Language (English / Vietnamese) ----------
+  var I18N_VI = {
+  "brand": "Trần Văn Khánh Đức",
+  "h1_name": "Trần Văn Khánh Đức",
+  "chain_me": "Trần Văn Khánh Đức",
+  "nav_about": "Giới thiệu",
+  "nav_pubs": "Ấn phẩm",
+  "nav_teaching": "Giảng dạy",
+  "nav_working": "Công việc",
+  "nav_talks": "Thuyết trình",
+  "nav_misc": "Ngoài lề",
+  "role": "Nghiên cứu sinh tiến sĩ ngành <strong>Khoa học Máy tính</strong><br>Đại học Quốc gia Singapore",
+  "h_about": "Giới thiệu",
+  "about_p": "Tôi là nghiên cứu sinh tiến sĩ ngành Khoa học Máy tính tại <a href=\"https://www.comp.nus.edu.sg/\">Đại học Quốc gia Singapore</a>, làm việc tại <a href=\"https://research.nus.edu.sg/ubicomplab/\">NUS Ubicomp Lab</a> dưới sự hướng dẫn của PGS. Brian Y. Lim. Trước đây, tôi theo học ngành Toán học và ngành Ngôn ngữ học tại <a href=\"https://www.utexas.edu/\">Đại học Texas tại Austin</a>. Các hướng nghiên cứu hiện tại của tôi gồm AI có thể giải thích (XAI) và tương tác người–máy (HCI), chủ yếu tập trung vào các công cụ AI hỗ trợ con người trong việc đưa ra hoặc phân tích các quyết định.",
+  "h_edu": "Học vấn",
+  "w_2025_now": "2025 — nay",
+  "edu_phd": "Tiến sĩ (Ph.D.) ngành Khoa học Máy tính",
+  "edu_nus": "Đại học Quốc gia Singapore",
+  "edu_bs": "Cử nhân Khoa học (B.S.) ngành Toán học",
+  "edu_ba": "Cử nhân Nghệ thuật (B.A.) ngành Ngôn ngữ học",
+  "edu_ut": "Đại học Texas tại Austin",
+  "h_pubs": "Ấn phẩm",
+  "h_papers": "Bài báo và bản thảo",
+  "h_books": "Sách",
+  "h_teaching": "Giảng dạy",
+  "h_nus": "Đại học Quốc gia Singapore",
+  "h_ut": "Đại học Texas tại Austin",
+  "w_sep26": "Th9/2026 — nay",
+  "w_sepdec24": "Th9 — Th12/2024",
+  "w_jan24": "Th1/2024 — Th5/2025",
+  "ta": "Trợ giảng",
+  "dept_cs": "Khoa Khoa học Máy tính",
+  "dept_ling": "Khoa Ngôn ngữ học",
+  "dept_math": "Khoa Toán học",
+  "grader": "Người chấm bài",
+  "c_cs3244": "CS 3244 Machine Learning (học kỳ Thu 2026)",
+  "c_lin372": "LIN 372J Meaning and Message (học kỳ Thu 2024)",
+  "c_m361": "M 361K Introduction to Real Analysis (học kỳ Xuân 2025)",
+  "c_m328": "M 328K Introduction to Number Theory (học kỳ Thu 2024)",
+  "c_m375": "M 375T Complex Analysis and Application (học kỳ Xuân 2024)",
+  "h_working": "Kinh nghiệm làm việc",
+  "w_may24": "Th5 — Th8/2024",
+  "w_jun23": "Th6 — Th8/2023",
+  "w_feb23": "Th2/2023 — Th5/2024",
+  "ai_intern": "Thực tập sinh AI, SmartOSC",
+  "hanoi": "Hà Nội, Việt Nam",
+  "smartosc_li": "Hoàn thành chứng minh khái niệm cho công cụ tìm kiếm sản phẩm dùng LLM với LangChain và Hugging Face.",
+  "alg_ra": "Trợ lý nghiên cứu Đại số",
+  "reu": "REU, Khoa Toán học, Đại học Tiểu bang Texas",
+  "alg_li1": "Nghiên cứu lý thuyết nhóm hữu hạn dưới sự hướng dẫn của GS. Yong Yang.",
+  "alg_li2": "Viết bài báo phân loại các nhóm nguyên thủy giải được hạng 5 và 6, đăng trên <em>Journal of Group Theory</em>.",
+  "ling_ra": "Trợ lý nghiên cứu Ngôn ngữ học",
+  "ling_dept_ut": "Khoa Ngôn ngữ học, Đại học Texas tại Austin",
+  "ling_li1": "Phân tích âm vị học của tiếng Cacaopera, một ngôn ngữ đã tuyệt chủng của El Salvador, nhằm xây dựng hệ thống âm vị nhất quán bằng bảng ký hiệu ngữ âm quốc tế (IPA).",
+  "ling_li2": "Phân tích tổng quan năm tài liệu ghi chép về tiếng Cacaopera.",
+  "h_talks": "Thuyết trình",
+  "h_invited": "Thuyết trình theo lời mời",
+  "h_contrib": "Thuyết trình tại hội nghị",
+  "h_posters": "Poster",
+  "d1": "2/12/2024",
+  "d2": "20/9/2023",
+  "d3": "17/6/2021",
+  "d4": "9/11/2024",
+  "d5": "28/10/2023",
+  "d6": "13–14/11/2023",
+  "d7": "20/10/2023",
+  "d8": "2/8/2023",
+  "v1": "Câu lạc bộ Toán, Đại học Stony Brook (online)",
+  "v2": "cùng A. Dey. Seminar Đại số và Tổ hợp, Đại học Tam Hiệp Trung Quốc (online)",
+  "v3": "2021 APS-Ghana Webinar, Hội Vật lý Hoa Kỳ (online)",
+  "v4": "Texas Undergraduate Mathematics Conference, Đại học Texas tại Tyler",
+  "v5": "Texas Undergraduate Mathematics Conference, Đại học Stephen F. Austin",
+  "v6": "Gateway to Graduate Studies in Science Symposium, Đại học Texas tại Austin",
+  "v7": "Math Graduate Programs Expo, Đại học Tiểu bang Texas",
+  "v8": "cùng A. Dey, K. O’Neal, C. Upshur. Research Inquiry and Creative Expression Showcase, Đại học Tiểu bang Texas",
+  "h_misc": "Ngoài lề",
+  "erdos": "Số Erdős",
+  "erdos_expl": "(khoảng cách cộng tác với Paul Erdős)",
+  "h_langs": "Ngôn ngữ tôi nói",
+  "l_vi": "Tiếng Việt",
+  "l_ja": "Tiếng Nhật",
+  "l_en": "Tiếng Anh",
+  "l_zh": "Tiếng Quan Thoại (tiếng Trung)",
+  "h_places": "Những nơi tôi đã đến",
+  "r_asia": "Châu Á",
+  "r_america": "Châu Mỹ"
+};
+  var STR = {
+    en: { copied: "Copied", failed: "Copy failed" },
+    vi: { copied: "Đã sao chép", failed: "Không sao chép được" }
+  };
+  var ATTRS = [
+    ["nav.tabs", "aria-label", "Các mục"],
+    ["#copy-email", "aria-label", "Sao chép địa chỉ email"],
+    ["#copy-email", "title", "Sao chép địa chỉ email"],
+    [".portrait img", "alt", "Chân dung Trần Văn Khánh Đức"],
+    [".chain", "aria-label", "Chuỗi cộng tác từ Trần Văn Khánh Đức đến Paul Erdős"],
+    ['ul.chips[aria-label="Languages"]', "aria-label", "Ngôn ngữ"],
+    ["#map", "aria-label", "Bản đồ những nơi tôi đã đến"],
+    [".lang", "aria-label", "Ngôn ngữ"]
+  ];
+  var META = {
+    title: { en: "Duc Van Khanh Tran", vi: "Trần Văn Khánh Đức" },
+    en: "Duc Van Khanh Tran: Ph.D. student in Computer Science at the National University of Singapore.",
+    vi: "Trần Văn Khánh Đức: nghiên cứu sinh tiến sĩ ngành Khoa học Máy tính tại Đại học Quốc gia Singapore."
+  };
+  var i18nEls = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
+  i18nEls.forEach(function (el) { el._en = el.innerHTML; });
+  var attrTargets = [];
+  ATTRS.forEach(function (a) {
+    var el = document.querySelector(a[0]);
+    if (el) attrTargets.push({ el: el, attr: a[1], en: el.getAttribute(a[1]), vi: a[2] });
   });
+  var metaDesc = document.querySelector('meta[name="description"]');
+  var langBtns = Array.prototype.slice.call(document.querySelectorAll(".lang button"));
+  var lang = "en";
+
+  function t(k) { return (STR[lang] || STR.en)[k]; }
+  function placeName(p) { return lang === "vi" && p.vi ? p.vi : p.name; }
+  function sortKey(p) { return placeName(p).replace(/, (USA|Hoa Kỳ)$/, ""); }
+
+  function renderChips() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-region]"), function (h) { h.textContent = ""; });
+    places.slice().sort(function (a, b) { return sortKey(a).localeCompare(sortKey(b), lang); }).forEach(function (p) {
+      var holder = document.querySelector('[data-region="' + p.region + '"]');
+      if (!holder) return;
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.textContent = placeName(p);
+      b.addEventListener("click", function () {
+        initMap();
+        if (!map) return;
+        map.invalidateSize();
+        map.flyTo([p.lat, p.lng], 5, { duration: 0.8 });
+        markers[p.name].openTooltip();
+        document.getElementById("map").scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
+      holder.appendChild(b);
+    });
+  }
+
+  function setLang(l, persist) {
+    lang = l === "vi" ? "vi" : "en";
+    document.documentElement.lang = lang;
+    i18nEls.forEach(function (el) {
+      var k = el.getAttribute("data-i18n");
+      el.innerHTML = (lang === "vi" && I18N_VI[k] != null) ? I18N_VI[k] : el._en;
+    });
+    attrTargets.forEach(function (a) { a.el.setAttribute(a.attr, lang === "vi" ? a.vi : a.en); });
+    document.title = META.title[lang];
+    if (metaDesc) metaDesc.setAttribute("content", META[lang]);
+    langBtns.forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-lang") === lang ? "true" : "false"); });
+    copyLabel.textContent = "";
+    renderChips();
+    places.forEach(function (p) { if (markers[p.name]) markers[p.name].setTooltipContent(placeName(p)); });
+    if (persist) {
+      try { localStorage.setItem("lang", lang); } catch (e) {}
+      try {
+        var u = new URL(location.href);
+        u.searchParams.set("lang", lang);
+        history.replaceState(null, "", u.toString());
+      } catch (e) {}
+    }
+  }
+  langBtns.forEach(function (b) {
+    b.addEventListener("click", function () { setLang(b.getAttribute("data-lang"), true); });
+  });
+
+  var initialLang = "en";
+  try {
+    var q = new URLSearchParams(location.search).get("lang");
+    if (q === "vi" || q === "en") initialLang = q;
+    else { var saved = localStorage.getItem("lang"); if (saved === "vi" || saved === "en") initialLang = saved; }
+  } catch (e) {}
+  setLang(initialLang, false);
+
   show(current());
 })();
 </script>
