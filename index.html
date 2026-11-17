@@ -97,6 +97,7 @@
   .chain li { display: flex; align-items: center; gap: 0.6rem; }
   .chain li + li::before { content: "\2192"; color: var(--muted); }
   .chain .name { padding: 0.25rem 0.75rem; border: 1px solid var(--rule); border-radius: 999px; background: var(--card); }
+  .chain .name.me { display: inline-flex; align-items: center; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--muted); }
   .place-group { margin-top: 1.25rem; }
   .place-group .chips { margin-top: 0.5rem; }
   .place-group button.chip { color: var(--accent); border-color: var(--rule); }
@@ -395,7 +396,7 @@
 
   <h3 class="misc-title"><span data-i18n="erdos">Erdős number</span> <span class="erdos-val">4</span> <span class="erdos-expl" data-i18n="erdos_expl">(collaborative distance from Paul Erdős)</span></h3>
   <ol class="chain" aria-label="Collaboration chain from Duc Van Khanh Tran to Paul Erdős">
-    <li><span data-i18n="chain_me" class="name">Duc Van Khanh Tran</span></li>
+    <li><span class="name me" role="img" aria-label="Duc Van Khanh Tran" title="Duc Van Khanh Tran"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5.5 21c0-4.1 2.9-7.4 6.5-7.4s6.5 3.3 6.5 7.4"/></svg></span></li>
     <li><span class="name">Sai Teja Somu</span></li>
     <li><span class="name">Georges Grekos</span></li>
     <li><span class="name">Jean-Marc Deshouillers</span></li>
@@ -580,7 +581,6 @@
   var I18N_VI = {
   "brand": "Trần Văn Khánh Đức",
   "h1_name": "Trần Văn Khánh Đức",
-  "chain_me": "Trần Văn Khánh Đức",
   "nav_about": "Giới thiệu",
   "nav_pubs": "Ấn phẩm",
   "nav_teaching": "Giảng dạy",
@@ -672,6 +672,8 @@
     ["#copy-email", "aria-label", "Sao chép địa chỉ email"],
     ["#copy-email", "title", "Sao chép địa chỉ email"],
     [".portrait img", "alt", "Chân dung Trần Văn Khánh Đức"],
+    [".chain .me", "aria-label", "Trần Văn Khánh Đức"],
+    [".chain .me", "title", "Trần Văn Khánh Đức"],
     [".chain", "aria-label", "Chuỗi cộng tác từ Trần Văn Khánh Đức đến Paul Erdős"],
     ['ul.chips[aria-label="Languages"]', "aria-label", "Ngôn ngữ"],
     ["#map", "aria-label", "Bản đồ những nơi tôi đã đến"],
