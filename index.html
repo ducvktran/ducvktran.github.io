@@ -843,14 +843,6 @@
     copyLabel.textContent = "";
     renderChips();
     places.forEach(function (p) { if (markers[p.name]) markers[p.name].setTooltipContent(placeName(p)); });
-    if (persist) {
-      try { localStorage.setItem("lang", lang); } catch (e) {}
-      try {
-        var u = new URL(location.href);
-        u.searchParams.set("lang", lang);
-        history.replaceState(null, "", u.toString());
-      } catch (e) {}
-    }
   }
   langBtns.forEach(function (b) {
     b.addEventListener("click", function () { setLang(b.getAttribute("data-lang"), true); });
@@ -860,7 +852,6 @@
   try {
     var q = new URLSearchParams(location.search).get("lang");
     if (q === "vi" || q === "en" || q === "hn") initialLang = q;
-    else { var saved = localStorage.getItem("lang"); if (saved === "vi" || saved === "en" || saved === "hn") initialLang = saved; }
   } catch (e) {}
   setLang(initialLang, false);
 
