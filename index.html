@@ -154,8 +154,8 @@
     </nav>
     <div class="lang" role="group" aria-label="Language">
       <button type="button" data-lang="en" lang="en" title="English" aria-pressed="true">EN</button>
-      <button type="button" data-lang="vi" lang="vi" title="Tiếng Việt" aria-pressed="false">VI</button>
-      <button type="button" data-lang="hn" lang="vi-Hani" title="Chữ Hán Nôm" aria-pressed="false">漢喃</button>
+      <button type="button" data-lang="vi" lang="vi" title="Tiếng Việt (Quốc Ngữ)" aria-pressed="false">VI</button>
+      <button type="button" data-lang="hn" lang="vi-Hani" title="Tiếng Việt (Hán Nôm)" aria-pressed="false">漢喃</button>
     </div>
   </div>
 </header>
@@ -848,12 +848,8 @@
     b.addEventListener("click", function () { setLang(b.getAttribute("data-lang"), true); });
   });
 
-  var initialLang = "en";
-  try {
-    var q = new URLSearchParams(location.search).get("lang");
-    if (q === "vi" || q === "en" || q === "hn") initialLang = q;
-  } catch (e) {}
-  setLang(initialLang, false);
+  // Always open in English; visitors switch language with the EN / VI / 漢喃 buttons.
+  setLang("en", false);
 
   show(current());
 })();
